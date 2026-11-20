@@ -455,8 +455,8 @@ a.channel:hover{background:#fff;color:var(--ink);transform:translateX(6px)}
   .hero-art{max-width:440px;margin-top:20px}
   .chip--a{left:-2%}.chip--b{right:-2%}.chip--c{left:-3%}
   .tabs,.data-grid{grid-template-columns:1fr}
-  .tablist{flex-direction:row;overflow-x:auto;padding:4px 4px 14px;margin:-4px -4px 0;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
-  .tab{flex:0 0 min(78vw,300px);scroll-snap-align:start}
+  .tablist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .tab{padding:14px 16px}
   .seg{grid-column:span 3}.seg:nth-child(4){grid-column:span 3}.seg:nth-child(5){grid-column:1/-1}
   .steps{grid-template-columns:repeat(2,1fr)}
   .ladder-wrap,.quiz-grid,.about,.contact-grid,.fit{grid-template-columns:1fr}
@@ -481,7 +481,8 @@ a.channel:hover{background:#fff;color:var(--ink);transform:translateX(6px)}
   .chip{font-size:.8rem;padding:.6em .85em}
   .word img{height:38px}
   .code pre{font-size:.7rem;padding:14px}
-  .dash-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}.dash-tabs button{flex:none}
+  .dash-tabs{gap:6px}.dash-tabs button{flex:1 1 auto;text-align:center;padding:.65em .8em}
+  .dash-bar i{display:none}.dash-bar span{margin-left:0}
   .note{display:none}
   .ladder{gap:8px;height:340px}
   .rung{padding:12px 9px}.rung span{display:none}
@@ -584,3 +585,36 @@ a.channel:hover{background:#fff;color:var(--ink);transform:translateX(6px)}
 .s-quiz+.s-res{border-top:0}
 .s-contact+.sec{border-top:var(--bd)}
 .sec:has(+ .endcap--tight){padding-bottom:calc(var(--sec)*.5)}
+
+/* ---------- Ajustes móviles: sin barras horizontales ni recortes ---------- */
+.back-tabs{display:none}
+@media (max-width:1060px){
+  .back-tabs{display:inline-flex;align-items:center;gap:.5em;margin-top:18px;font:800 .92rem var(--f-d);text-decoration:none;padding:.7em 1.1em;border:var(--bd);border-radius:999px;background:var(--cream)}
+  .back-tabs .i{transform:rotate(-90deg)}
+}
+@media (max-width:700px){
+  .tablist{grid-template-columns:minmax(0,1fr)}
+}
+/* escalera: en pantallas angostas se vuelve una escalera vertical */
+@media (max-width:640px){
+  .ladder{grid-template-columns:minmax(0,1fr);height:auto;gap:10px;align-items:stretch}
+  .rung,.rung:nth-child(n){height:auto;border-radius:18px;padding:14px 16px;justify-content:flex-start;min-width:0}
+  .rung span{display:block}
+  .rung:nth-child(1){width:72%}.rung:nth-child(2){width:82%}.rung:nth-child(3){width:91%}.rung:nth-child(4){width:100%}
+  .rung b{font-size:1.25rem}
+  .rung:hover{transform:none}
+}
+/* navegación entre páginas en móvil */
+@media (max-width:700px){
+  .pager{grid-template-columns:minmax(0,1fr)}
+  .pg--next{padding-right:clamp(20px,2.4vw,32px)}
+  .pg--next b{font-size:clamp(1.9rem,8.6vw,2.6rem);overflow-wrap:anywhere}
+  .pg-ar{top:16px;bottom:auto;right:16px;width:48px}
+  .pg-d{max-width:none}
+}
+@media (max-width:700px){
+  .dash-bar{padding:12px}
+  .dash-bar span{white-space:normal;line-height:1.15;font-size:.78rem}
+  .dash-bar .demo{font-size:.62rem;padding:.5em .7em}
+}
+@media (max-width:360px){ .code pre{font-size:.62rem;padding:12px} }

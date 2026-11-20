@@ -34,20 +34,21 @@
 
   /* ---------- Pestañas de servicios ---------- */
   var tabs = $$('.tab'), panels = $$('.panel');
-  function selectTab(area, focus) {
+  function selectTab(area, focus, scroll) {
     tabs.forEach(function (t) {
       var on = t.dataset.area === area; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
       if (on && focus) t.focus();
-      if (on && window.innerWidth <= 1060) t.scrollIntoView({ inline: 'center', block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
     });
     panels.forEach(function (p) {
       var on = p.id === 'p-' + area; p.classList.toggle('on', on);
-      if (on) { p.classList.remove('in'); void p.offsetWidth; p.classList.add('in'); }
+      if (on) { p.classList.remove('in'); void p.offsetWidth; p.classList.add('in'); if (scroll && window.innerWidth <= 1060) setTimeout(function () { p.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' }); }, 30); }
     });
   }
+  /* móvil: enlace para volver a la lista de síntomas */
+  var tabsBox = $('.tabs'); if (tabsBox) { tabsBox.id = 'sintomas'; panels.forEach(function (p) { var a = document.createElement('a'); a.className = 'back-tabs'; a.href = '#sintomas'; a.innerHTML = '<svg class="i"><use href="#i-arrow"/></svg> Elegir otro síntoma'; p.appendChild(a); }); }
   var qs = new URLSearchParams(location.search);
   tabs.forEach(function (t, i) {
-    t.addEventListener('click', function () { selectTab(t.dataset.area); });
+    t.addEventListener('click', function () { selectTab(t.dataset.area, false, true); });
     t.addEventListener('keydown', function (e) {
       var k = e.key, n = null;
       if (k === 'ArrowDown' || k === 'ArrowRight') n = (i + 1) % tabs.length;
@@ -90,8 +91,10 @@
   };
   var kpisEl = $('#kpis'), chartEl = $('#chart'), insEl = $('#insight');
   var hasDash = !!(kpisEl && chartEl && insEl);
+  function CW() { return window.innerWidth < 520 ? 380 : 560; }
+  var curView = 'ventas', narrow = CW() === 380;
   function lineChart(s) {
-    var W = 560, H = 250, pl = 34, pr = 14, pt = 16, pb = 30, all = [], i;
+    var W = CW(), H = 250, pl = 34, pr = 14, pt = 16, pb = 30, all = [], i;
     s.series.forEach(function (x) { all = all.concat(x.d); });
     var max = Math.ceil(Math.max.apply(null, all) / 20) * 20, mn = s.min || 0, n = M.length;
     function X(i) { return pl + i * (W - pl - pr) / (n - 1); } function Y(v) { return H - pb - (v - mn) / (max - mn) * (H - pt - pb); }
@@ -106,7 +109,7 @@
     return wrap(W, H, g + legend(s.series, W));
   }
   function barChart(s) {
-    var W = 560, H = 250, pl = 34, pr = 14, pt = 16, pb = 30, n = M.length, all = s.series[0].d.concat(s.series[1].d), max = Math.ceil(Math.max.apply(null, all) / 20) * 20, g = '', i;
+    var W = CW(), H = 250, pl = 34, pr = 14, pt = 16, pb = 30, n = M.length, all = s.series[0].d.concat(s.series[1].d), max = Math.ceil(Math.max.apply(null, all) / 20) * 20, g = '', i;
     function Y(v) { return H - pb - v / max * (H - pt - pb); }
     for (i = 0; i <= 4; i++) { var yv = max / 4 * i; g += '<line x1="' + pl + '" x2="' + (W - pr) + '" y1="' + Y(yv) + '" y2="' + Y(yv) + '" stroke="rgba(5,11,31,.12)" stroke-dasharray="3 5"/><text x="' + (pl - 8) + '" y="' + (Y(yv) + 4) + '" text-anchor="end">' + Math.round(yv) + '</text>'; }
     var gw = (W - pl - pr) / n, bw = gw * .3;
@@ -118,7 +121,7 @@
     return wrap(W, H, g + legend(s.series, W));
   }
   function hChart(v) {
-    var W = 560, H = 250, g = '', cols = ['#8B35F0', '#0B6BF0', '#12C4F0', '#FFB38A', '#D5F45B'], bh = 30, gap = 14, lx = 150, mx = 36;
+    var W = CW(), H = 250, g = '', cols = ['#8B35F0', '#0B6BF0', '#12C4F0', '#FFB38A', '#D5F45B'], bh = 30, gap = 14, lx = 150, mx = 36;
     v.rows.forEach(function (r, i) {
       var y = 12 + i * (bh + gap), w = (W - lx - mx) * r[1] / 30;
       g += '<text x="' + (lx - 12) + '" y="' + (y + bh / 2 + 4) + '" text-anchor="end" style="fill:#050B1F;font-weight:700;font-size:12px">' + r[0] + '</text><rect class="hbar" style="animation-delay:' + i * .08 + 's" x="' + lx + '" y="' + y + '" width="' + w + '" height="' + bh + '" rx="8" fill="' + cols[i] + '" stroke="#050B1F" stroke-width="2"/><text x="' + (lx + w + 8) + '" y="' + (y + bh / 2 + 4) + '" style="fill:#050B1F;font-weight:800;font-size:12px">' + r[1] + '%</text>';
@@ -128,7 +131,7 @@
   function legend(ss, W) { var x = W - 14, g = '<g class="lg">'; ss.slice().reverse().forEach(function (s) { var w = s.n.length * 7 + 22; x -= w; g += '<circle cx="' + (x + 5) + '" cy="10" r="5" fill="' + s.c + '" stroke="#050B1F" stroke-width="1.5"/><text x="' + (x + 15) + '" y="14">' + s.n + '</text>'; }); return g + '</g>'; }
   function wrap(W, H, inner) { return '<svg class="cht" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">' + inner + '</svg>'; }
   function renderView(k) {
-    var v = V[k];
+    var v = V[k]; curView = k;
     kpisEl.innerHTML = v.kpis.map(function (x) { return '<div class="kpi ' + (x[2] || '') + '"><small>' + x[0] + '</small><b>' + x[1] + '</b></div>'; }).join('');
     chartEl.innerHTML = v.type === 'line' ? lineChart(v) : v.type === 'bars' ? barChart(v) : hChart(v);
     chartEl.setAttribute('aria-label', 'Gráfico de ejemplo: ' + $('.dash-tabs [data-view="' + k + '"]').textContent);
@@ -139,7 +142,7 @@
     b.addEventListener('click', function () { dtabs.forEach(function (x) { x.setAttribute('aria-selected', x === b); x.tabIndex = x === b ? 0 : -1; }); renderView(b.dataset.view); });
     b.addEventListener('keydown', function (e) { var n = null; if (e.key === 'ArrowRight') n = (i + 1) % dtabs.length; if (e.key === 'ArrowLeft') n = (i - 1 + dtabs.length) % dtabs.length; if (n !== null) { e.preventDefault(); dtabs[n].focus(); dtabs[n].click(); } });
   });
-  if (hasDash) renderView('ventas');
+  if (hasDash) { renderView('ventas'); window.addEventListener('resize', function () { var n = CW() === 380; if (n !== narrow) { narrow = n; renderView(curView); } }); }
 
   /* ---------- Autodiagnóstico ---------- */
   var Q = [
