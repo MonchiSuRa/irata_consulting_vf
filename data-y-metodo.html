@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>document.documentElement.className+=' js'</script>
+
+<title>Data y método — IRATA Consulting | Tecnología sin jerga, método sin casarte</title>
+<meta name="description" content="SQL, BI y automatización explicados en lenguaje de negocio, y un método de seis pasos que empieza con un diagnóstico de alcance cerrado.">
+<meta name="author" content="IRATA Consulting">
+<meta name="theme-color" content="#FBF5EC">
+<link rel="canonical" href="https://irata.consulting/data-y-metodo.html">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_LA">
+<meta property="og:site_name" content="IRATA Consulting">
+<meta property="og:title" content="IRATA Consulting — Somos de datos. Y hablamos humano.">
+<meta property="og:description" content="SQL, BI y automatización explicados en lenguaje de negocio, y un método de seis pasos que empieza con un diagnóstico de alcance cerrado.">
+<meta property="og:url" content="https://irata.consulting/data-y-metodo.html">
+<meta property="og:image" content="https://irata.consulting/assets/img/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+<link rel="preload" href="assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/styles.css">
+
+<script src="assets/js/config.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+
+</head>
+
+<body>
+<!-- Íconos (sprite) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L19.5 7"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M6 17L17 6M8 6h9v9"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7.5l8.5 6 8.5-6"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20 12a8 8 0 01-11.6 7.1L4 20l1-4.1A8 8 0 1120 12z"/></symbol>
+  <symbol id="i-in" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 11v6M8 7.5v.01M12 17v-6M12 13.5a2.5 2.5 0 015 0V17"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-bars" viewBox="0 0 24 24"><path d="M6 20v-6M12 20V6M18 20v-9"/></symbol>
+</svg>
+
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<!-- ═════════════ NAV ═════════════ -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand-lock" href="index.html" aria-label="IRATA Consulting — inicio">
+      <span class="brand">
+        <picture>
+          <source type="image/webp" srcset="assets/img/isotipo-claro-marca-128.webp 128w, assets/img/isotipo-claro-marca-256.webp 256w, assets/img/isotipo-claro-marca-384.webp 384w" sizes="52px">
+          <img src="assets/img/isotipo-claro-marca-256.webp" width="256" height="256" alt="" decoding="async">
+        </picture>
+      </span>
+      <span class="word"><img src="assets/img/wordmark-ink-360.webp" srcset="assets/img/wordmark-ink-240.webp 240w, assets/img/wordmark-ink-360.webp 360w, assets/img/wordmark-ink-480.webp 480w, assets/img/wordmark-ink-636.webp 636w" sizes="120px" width="636" height="247" alt="IRATA Consulting" decoding="async"></span>
+    </a>
+    <nav class="nav-links" aria-label="Principal">
+      <a href="servicios.html">Servicios</a>
+      <a href="data-y-metodo.html" aria-current="page" class="on">Data y método</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="autodiagnostico.html">Autodiagnóstico</a>
+    </nav>
+    <a class="btn btn--ink btn--sm" href="contacto.html">Hablemos <svg class="i"><use href="#i-arrow"/></svg></a>
+    <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="drawer" id="drawer" aria-label="Menú móvil">
+  <a href="index.html">Inicio</a>
+  <a href="servicios.html">Servicios</a>
+  <a href="data-y-metodo.html" aria-current="page">Data y método</a>
+  <a href="nosotros.html">Nosotros</a>
+  <a href="autodiagnostico.html">Autodiagnóstico</a>
+  <a class="btn btn--lime" href="contacto.html">Hablemos de tu negocio</a>
+</nav>
+
+<main id="main">
+
+<section class="sec s-data" id="data">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow rv">Lo tech, sin la jerga</p>
+      <h1 class="h-lg rv">Somos de datos. <em>Y hablamos humano.</em></h1>
+      <p class="lead rv">Detrás de cada recomendación hay SQL, modelos y dashboards. Pero a ti te llega lo que importa: qué está pasando y qué hacer. Juega con este mini tablero de ejemplo.</p>
+    </div>
+
+    <div class="data-grid">
+      <div class="dash card rv" aria-label="Mini tablero interactivo de ejemplo">
+        <div class="dash-bar"><i></i><i></i><i></i><span>tablero-ejemplo · irata</span><em class="demo">Datos de ejemplo</em></div>
+        <div class="dash-tabs" role="tablist" aria-label="Vista del tablero">
+          <button role="tab" aria-selected="true" data-view="ventas">Ventas vs. utilidad</button>
+          <button role="tab" aria-selected="false" tabindex="-1" data-view="clientes">Clientes que vuelven</button>
+          <button role="tab" aria-selected="false" tabindex="-1" data-view="tiempo">Dónde se va el tiempo</button>
+        </div>
+        <div class="kpis" id="kpis" aria-live="polite"></div>
+        <div class="chart" id="chart" role="img" aria-label="Gráfico de ejemplo"></div>
+        <p class="insight" id="insight"></p>
+      </div>
+
+      <div class="stack-col">
+        <div class="code card rv" style="--d:.08s">
+          <div class="code-bar"><i></i><i></i><i></i><span>segmentacion_rfm.sql</span></div>
+<pre aria-label="Ejemplo de consulta SQL para segmentar clientes por recencia, frecuencia y valor"><code><span class="c">-- ¿Quiénes son tus mejores clientes?</span>
+<span class="k">SELECT</span> cliente_id,
+       <span class="k">DATEDIFF</span>(day, <span class="k">MAX</span>(fecha),
+                <span class="k">CURRENT_DATE</span>) <span class="k">AS</span> recencia,
+       <span class="k">COUNT</span>(*)   <span class="k">AS</span> frecuencia,
+       <span class="k">SUM</span>(valor) <span class="k">AS</span> valor_total
+<span class="k">FROM</span>   ventas
+<span class="k">GROUP BY</span> cliente_id;</code></pre>
+          <p class="code-cap">Así se ve por dentro una segmentación RFM. Tú recibes los segmentos y qué hacer con cada uno.</p>
+        </div>
+
+        <div class="card stack rv" style="--d:.14s">
+          <h3>Con qué trabajamos</h3>
+          <ul class="tags">
+            <li>SQL</li><li>Amazon Redshift</li><li>Power BI</li><li>Tableau</li><li>Excel y hojas de cálculo</li><li>Integración con Salesforce y CRM</li><li>Automatización y APIs</li><li>IA aplicada</li>
+          </ul>
+          <p>Elegimos herramientas según tu presupuesto y madurez. La mejor es la que tu equipo va a usar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec s-method on-dark" id="metodo">
+  <div class="iso-dark" aria-hidden="true">
+    <picture>
+      <source type="image/webp" srcset="assets/img/isotipo-oscuro-512.webp 512w, assets/img/isotipo-oscuro-1024.webp 1024w, assets/img/isotipo-oscuro-1536.webp 1536w, assets/img/isotipo-oscuro-2048.webp 2048w" sizes="(max-width:1060px) 90vw, 640px">
+      <img src="assets/img/isotipo-oscuro-original.jpg" width="2048" height="2048" alt="" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow rv">Cómo trabajamos</p>
+      <h2 class="h-lg rv">Sin casarnos <em>el primer día.</em></h2>
+      <p class="lead rv">No recibes un informe aislado: recibes un plan y acompañamiento. Seis pasos claros, y tú decides hasta dónde llegar.</p>
+    </div>
+
+    <ol class="steps">
+      <li class="step rv"><b>01</b><h3>Entender</h3><p>Conversamos contigo y conocemos tu modelo, objetivos y problemas.</p></li>
+      <li class="step rv" style="--d:.05s"><b>02</b><h3>Diagnosticar</h3><p>Revisamos números, clientes, procesos, recursos y herramientas.</p></li>
+      <li class="step rv" style="--d:.1s"><b>03</b><h3>Priorizar</h3><p>Elegimos por impacto, esfuerzo, costo y urgencia. Un plan enfocado, no una lista infinita.</p></li>
+      <li class="step rv"><b>04</b><h3>Diseñar</h3><p>Definimos procesos, indicadores, roles, acciones y herramientas.</p></li>
+      <li class="step rv" style="--d:.05s"><b>05</b><h3>Implementar</h3><p>Te acompañamos en cambios, automatizaciones, tableros y capacitación.</p></li>
+      <li class="step rv" style="--d:.1s"><b>06</b><h3>Medir y escalar</h3><p>Revisamos adopción y resultados, y preparamos lo que sigue.</p></li>
+    </ol>
+
+    <div class="ladder-wrap">
+      <div class="rv">
+        <h3>Empieza chiquito. Crece cuando tenga sentido.</h3>
+        <p>Cada peldaño es una decisión tuya. Reducimos alcance, nunca calidad, para que la puerta de entrada sea accesible y el rigor se mantenga.</p>
+      </div>
+      <div class="ladder rv" style="--d:.1s" role="list">
+        <div class="rung" role="listitem"><i>1 · Entrada</i><b>Business Check</b><span>Diagnóstico de alcance cerrado</span></div>
+        <div class="rung" role="listitem"><i>2 · Proyecto</i><b>Un problema, resuelto</b><span>Control, procesos, ventas, clientes o automatización</span></div>
+        <div class="rung" role="listitem"><i>3 · Integral</i><b>Plan por fases</b><span>Varias áreas conectadas</span></div>
+        <div class="rung" role="listitem"><i>4 · Continuidad</i><b>Growth Partner</b><span>Acompañamiento mensual</span></div>
+      </div>
+    </div>
+
+    <div class="note-check rv">
+      <h3>Tu puerta de entrada: el IRATA Business Check.</h3>
+      <p>Una reunión contigo, revisión de la información que tengas, entrevistas breves y observación de procesos clave. Calculamos de 2 a 3 semanas según acceso y complejidad. Cierras con una sesión de devolución, diagnóstico ejecutivo, oportunidades priorizadas y un plan 30/60/90 días.</p>
+      <a class="btn btn--lime" href="contacto.html?area=orden" data-pre="orden">Quiero un Business Check <svg class="i"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ CIERRE ═════════════ -->
+<section class="endcap" aria-label="Seguir navegando">
+  <div class="wrap">
+    <div class="cta-strip rv">
+      <div class="t"><h3>¿Y tus datos, dónde viven hoy?</h3><p>Cuéntanos de tus fuentes (Excel, POS, CRM…) y te decimos por dónde empezar.</p></div>
+      <div class="acts"><a class="btn btn--ink" href="contacto.html">Hablemos de tus datos <svg class="i"><use href="#i-arrow"/></svg></a><a class="btn" href="autodiagnostico.html">Autodiagnóstico (1 min) <svg class="i"><use href="#i-arrow"/></svg></a></div>
+    </div>
+    <nav class="pager rv" aria-label="Navegación entre páginas">
+      <a class="pg pg--prev" href="servicios.html" rel="prev"><span class="pg-k"><svg class="i"><use href="#i-arrow"/></svg> Anterior</span><b>Servicios</b></a>
+      <a class="pg pg--next" href="nosotros.html" rel="next" style="--pg:var(--peach)"><span class="pg-k">Siguiente · 4 de 6</span><b>Nosotros</b><span class="pg-d">Alguien que ha vivido la operación, no solo mirado el Excel.</span><span class="pg-ar" aria-hidden="true"><svg class="i"><use href="#i-arrow"/></svg></span></a>
+    </nav>
+    <nav class="trail" aria-label="Páginas del sitio">
+      <ol><li><a href="index.html" aria-label="Inicio" title="Inicio"></a></li><li><a href="servicios.html" aria-label="Servicios" title="Servicios"></a></li><li><a href="data-y-metodo.html" aria-label="Data y método" title="Data y método" aria-current="page"></a></li><li><a href="nosotros.html" aria-label="Nosotros" title="Nosotros"></a></li><li><a href="autodiagnostico.html" aria-label="Autodiagnóstico" title="Autodiagnóstico"></a></li><li><a href="contacto.html" aria-label="Contacto" title="Contacto"></a></li></ol>
+      <span>03 / 06 · Data y método</span>
+    </nav>
+  </div>
+</section>
+</main>
+
+<!-- ═════════════ FOOTER ═════════════ -->
+<footer class="sitefoot on-dark">
+  <div class="wrap">
+    <a class="logo-banner" href="index.html" aria-label="IRATA Consulting — De datos a decisiones reales. Ir al inicio">
+      <picture>
+        <source type="image/webp" srcset="assets/img/logo-completo-640.webp 640w, assets/img/logo-completo-1288.webp 1288w, assets/img/logo-completo-1932.webp 1932w, assets/img/logo-completo-2576.webp 2576w" sizes="(max-width:1440px) 100vw, 1440px">
+        <img src="assets/img/logo-completo-original.jpg" width="2576" height="639" alt="IRATA Consulting — De datos a decisiones reales" loading="lazy" decoding="async">
+      </picture>
+    </a>
+
+    <div class="foot-grid">
+      <div>
+        <p class="foot-tag">De datos a decisiones reales.</p>
+        <p class="foot-desc">Consultora boutique de gestión, data analytics y transformación para emprendedores, pymes y negocios en crecimiento de Latinoamérica.</p>
+      </div>
+      <div>
+        <h4>Servicios</h4>
+        <ul><li><a href="servicios.html?s=orden">Orden y estrategia</a></li><li><a href="servicios.html?s=procesos">Procesos</a></li><li><a href="servicios.html?s=ventas">Ventas y rentabilidad</a></li><li><a href="servicios.html?s=datos">Data y BI</a></li><li><a href="servicios.html?s=clientes">Clientes</a></li><li><a href="servicios.html?s=tecnologia">Automatización</a></li></ul>
+      </div>
+      <div>
+        <h4>IRATA</h4>
+        <ul><li><a href="servicios.html#para-quien">Para quién</a></li><li><a href="data-y-metodo.html">Data</a></li><li><a href="#metodo">Método</a></li><li><a href="nosotros.html">Nosotros</a></li><li><a href="autodiagnostico.html#recursos">Recursos</a></li><li><a href="contacto.html#faq">Preguntas</a></li></ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:hola@irata.consulting" data-email>hola@irata.consulting</a></li>
+          <li data-social="linkedin" hidden><a href="#" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li data-social="instagram" hidden><a href="#" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="contacto.html">Escríbenos aquí</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <span>© 2026 IRATA Consulting. Todos los derechos reservados.</span>
+      <span><a href="privacidad.html">Privacidad</a></span>
+    </div>
+    <p class="legal">IRATA no reemplaza al contador, abogado, auditor, asesor tributario ni a ningún profesional regulado. Los datos mostrados en el tablero de esta página son ilustrativos y no representan clientes ni resultados reales.</p>
+  </div>
+</footer>
+
+</body>
+</html>
