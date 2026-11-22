@@ -145,48 +145,87 @@
   if (hasDash) { renderView('ventas'); window.addEventListener('resize', function () { var n = CW() === 380; if (n !== narrow) { narrow = n; renderView(curView); } }); }
 
   /* ---------- Autodiagnóstico ---------- */
-  var Q = [
-    { t: 'Sé cuánto gano de verdad cada mes (utilidad), no solo cuánto vendo.', a: 'orden' },
-    { t: 'Si me ausento una semana, el negocio sigue sin llamarme cada hora.', a: 'procesos' },
-    { t: 'Tengo claro qué productos o servicios me dejan más margen.', a: 'ventas' },
-    { t: 'Mis procesos clave están escritos, o se hacen igual sin importar quién los haga.', a: 'procesos' },
-    { t: 'Mi base de clientes está ordenada y sé cuáles vuelven y cuáles no.', a: 'clientes' },
-    { t: 'Reviso unos pocos indicadores cada semana y decido con ellos.', a: 'datos' },
-    { t: 'Mis herramientas (caja o POS, Excel, redes, facturación) se hablan entre sí; casi no copio y pego.', a: 'tecnologia' }
-  ];
-  var AL = { orden: 'Orden y estrategia', procesos: 'Procesos y eficiencia', ventas: 'Ventas y rentabilidad', datos: 'Datos e indicadores', clientes: 'Clientes y relacionamiento', tecnologia: 'Tecnología y automatización' };
+  var QS = {
+    marcha: [
+      { t: 'Sé cuánto gano de verdad cada mes (utilidad), no solo cuánto vendo.', a: 'orden' },
+      { t: 'Si me ausento una semana, el negocio sigue sin llamarme cada hora.', a: 'procesos' },
+      { t: 'Tengo claro qué productos o servicios me dejan más margen.', a: 'ventas' },
+      { t: 'Mis procesos clave están escritos, o se hacen igual sin importar quién los haga.', a: 'procesos' },
+      { t: 'Mi base de clientes está ordenada y sé cuáles vuelven y cuáles no.', a: 'clientes' },
+      { t: 'Reviso unos pocos indicadores cada semana y decido con ellos.', a: 'datos' },
+      { t: 'Mis herramientas (caja o POS, Excel, redes, facturación) se hablan entre sí; casi no copio y pego.', a: 'tecnologia' }
+    ],
+    arranque: [
+      { t: 'Puedo explicar en una frase qué vendo, a quién y por qué me elegirían.', a: 'plan' },
+      { t: 'Sé cuánto tengo que vender cada mes para cubrir mis costos.', a: 'plan' },
+      { t: 'He hablado con posibles clientes para confirmar que pagarían por mi propuesta.', a: 'mercado' },
+      { t: 'Conozco a mi competencia y sé en qué me diferencio de ella.', a: 'mercado' },
+      { t: 'Tengo metas y pasos concretos para los próximos 90 días.', a: 'planificacion' },
+      { t: 'Llevo un control básico de lo que entra y lo que sale, aunque sea en una hoja.', a: 'planificacion' },
+      { t: 'Tengo a alguien con experiencia a quien consultar mis decisiones importantes.', a: 'asesoria' }
+    ]
+  };
+  var AL = { orden: 'Orden y estrategia', procesos: 'Procesos y eficiencia', ventas: 'Ventas y rentabilidad', datos: 'Datos e indicadores', clientes: 'Clientes y relacionamiento', tecnologia: 'Tecnología y automatización', plan: 'Plan de negocios', mercado: 'Estudio de mercado', planificacion: 'Planificación', asesoria: 'Asesoría y acompañamiento' };
   var OPT = [['Sí, tal cual', 2], ['A medias', 1], ['Todavía no', 0]];
-  var BANDS = [
-    { max: 4, tag: 'Modo supervivencia', h: 'Tu negocio funciona porque tú empujas.', p: 'Es muy normal en esta etapa, y es justo el mejor momento para ordenar antes de crecer. Un diagnóstico te daría claridad rápida sobre por dónde empezar.' },
-    { max: 9, tag: 'En construcción', h: 'Buenas bases, varios huecos.', p: 'Hay cosas que ya funcionan y otras que se te escapan. Cerrar esos huecos suele ahorrar tiempo y plata más rápido de lo que parece.' },
-    { max: 14, tag: 'Casi listo para escalar', h: 'Vas bien. Falta afinar.', p: 'Con un par de ajustes quedas preparado para el siguiente salto con control: más sedes, más equipo o más canales.' }
-  ];
-  var quiz = $('#quiz'), qi = 0, ans = [];
-  function qStart() { qi = 0; ans = []; qRender(); }
+  var BANDS = {
+    marcha: [
+      { max: 4, tag: 'Modo supervivencia', h: 'Tu negocio funciona porque tú empujas.', p: 'Es muy normal en esta etapa, y es justo el mejor momento para ordenar antes de crecer. Un diagnóstico te daría claridad rápida sobre por dónde empezar.' },
+      { max: 9, tag: 'En construcción', h: 'Buenas bases, varios huecos.', p: 'Hay cosas que ya funcionan y otras que se te escapan. Cerrar esos huecos suele ahorrar tiempo y plata más rápido de lo que parece.' },
+      { max: 14, tag: 'Casi listo para escalar', h: 'Vas bien. Falta afinar.', p: 'Con un par de ajustes quedas preparado para el siguiente salto con control: más sedes, más equipo o más canales.' }
+    ],
+    arranque: [
+      { max: 4, tag: 'Idea en etapa semilla', h: 'Tienes la ilusión. Falta aterrizar la ruta.', p: 'Es el mejor momento para validar con calma antes de gastar: un plan claro y una conversación con el mercado te ahorran meses de prueba y error.' },
+      { max: 9, tag: 'Despegando', h: 'Vas armando las piezas.', p: 'Ya tienes parte del camino. Conectar plan, mercado y números te dará la seguridad para dar el siguiente paso sin improvisar.' },
+      { max: 14, tag: 'Listo para lanzar', h: 'Tu base está sólida. Toca ejecutar con foco.', p: 'Lo esencial está claro. Un acompañamiento puntual te ayuda a priorizar y a medir desde el primer día.' }
+    ]
+  };
+  var quiz = $('#quiz'), qi = 0, ans = [], track = 'marcha', Q = QS.marcha;
+  function setTrack(t) { track = t; Q = QS[t]; }
+  function qStart(t) {
+    ans = [];
+    if (t === 'arranque' || t === 'marcha') { setTrack(t); qi = 0; qRender(); } else { qi = -1; qRender(); }
+  }
+  function qProfile() {
+    quiz.innerHTML = '<div class="q-top"><span>Antes de empezar</span></div>' +
+      '<p class="q-text">¿En qué momento está tu negocio?</p><div class="q-opts">' +
+      '<button class="q-opt" data-track="arranque"><kbd>1</kbd>Estoy arrancando: tengo la idea o apenas empiezo</button>' +
+      '<button class="q-opt" data-track="marcha"><kbd>2</kbd>Ya vendo y estoy en marcha: quiero ordenar y crecer</button></div>';
+    $$('.q-opt', quiz).forEach(function (b) { b.addEventListener('click', function () { qStart(b.dataset.track); }); });
+  }
   function qRender() {
+    if (qi < 0) return qProfile();
     if (qi >= Q.length) return qResult();
     var pct = Math.round(qi / Q.length * 100);
     quiz.innerHTML = '<div class="q-top"><span>' + (qi + 1) + ' / ' + Q.length + '</span><div class="q-bar"><i style="width:' + pct + '%"></i></div></div>' +
       '<p class="q-text">' + Q[qi].t + '</p><div class="q-opts">' + OPT.map(function (o, j) { return '<button class="q-opt" data-v="' + o[1] + '"><kbd>' + (j + 1) + '</kbd>' + o[0] + '</button>'; }).join('') + '</div>' +
-      '<button class="q-back" ' + (qi ? '' : 'hidden') + '>← Volver</button>';
+      '<button class="q-back">← Volver</button>';
     requestAnimationFrame(function () { var bar = $('.q-bar i', quiz); if (bar) bar.style.width = Math.round((qi + .001) / Q.length * 100) + '%'; });
     $$('.q-opt', quiz).forEach(function (b) { b.addEventListener('click', function () { ans[qi] = +b.dataset.v; qi++; qRender(); }); });
-    var back = $('.q-back', quiz); back.addEventListener('click', function () { qi = Math.max(0, qi - 1); qRender(); });
+    var back = $('.q-back', quiz); back.addEventListener('click', function () { qi = qi - 1; qRender(); });
   }
   function qResult() {
-    var score = ans.reduce(function (a, b) { return a + b; }, 0), band = BANDS.filter(function (b) { return score <= b.max; })[0];
+    var bands = BANDS[track], start = track === 'arranque';
+    var score = ans.reduce(function (a, b) { return a + b; }, 0), band = bands.filter(function (b) { return score <= b.max; })[0];
     var agg = {}, order = [];
     Q.forEach(function (q, i) { if (!agg[q.a]) { agg[q.a] = { s: 0, n: 0 }; order.push(q.a); } agg[q.a].s += ans[i]; agg[q.a].n += 2; });
     var weak = order.reduce(function (m, k) { return agg[k].s / agg[k].n < agg[m].s / agg[m].n ? k : m; }, order[0]);
-    var weakTxt = agg[weak].s === agg[weak].n ? '' : '<p class="res-weak">Tu punto más flojo: <b>' + AL[weak] + '</b>. <a href="servicios.html?s=' + weak + '#servicios" data-weak="' + weak + '">Ver qué hacemos con eso →</a></p>';
+    var weakTxt = '';
+    if (agg[weak].s !== agg[weak].n) {
+      weakTxt = start
+        ? '<p class="res-weak">Tu punto más flojo: <b>' + AL[weak] + '</b>. Es donde más te ayudaría una asesoría de arranque. <a href="servicios.html?s=arranque#servicios" data-weak="arranque">Ver qué hacemos con eso →</a></p>'
+        : '<p class="res-weak">Tu punto más flojo: <b>' + AL[weak] + '</b>. <a href="servicios.html?s=' + weak + '#servicios" data-weak="' + weak + '">Ver qué hacemos con eso →</a></p>';
+    }
+    var cta = start
+      ? '<a class="btn btn--ink" href="contacto.html?area=arranque" id="q-cta">Quiero arrancar con orden <svg class="i"><use href="#i-arrow"/></svg></a>'
+      : '<a class="btn btn--ink" href="contacto.html?area=orden" id="q-cta">Quiero un Business Check <svg class="i"><use href="#i-arrow"/></svg></a>';
     quiz.innerHTML = '<div class="res"><div class="res-score">' + score + '<small>/ ' + (Q.length * 2) + '</small></div><span class="res-tag">' + band.tag + '</span><h3>' + band.h + '</h3><p>' + band.p + '</p>' +
       '<div class="res-meter" role="img" aria-label="' + score + ' de ' + (Q.length * 2) + '"><i></i></div>' + weakTxt +
-      '<div class="res-cta"><a class="btn btn--ink" href="contacto.html?area=orden" id="q-cta">Quiero un Business Check <svg class="i"><use href="#i-arrow"/></svg></a><button class="btn" id="q-redo" type="button">Repetir</button></div>' +
+      '<div class="res-cta">' + cta + '<button class="btn" id="q-redo" type="button">Repetir</button></div>' +
       '<p class="fine">Puntuación orientativa, no es una auditoría. Sirve para abrir la conversación.</p></div>';
     requestAnimationFrame(function () { setTimeout(function () { var m = $('.res-meter i', quiz); if (m) m.style.width = Math.round(score / (Q.length * 2) * 100) + '%'; }, 60); });
-    var msg = 'Hice el autodiagnóstico de IRATA: ' + score + '/' + (Q.length * 2) + ' (' + band.tag + '). Mi punto más flojo: ' + AL[weak] + '.';
+    var msg = 'Hice el autodiagnóstico de IRATA' + (start ? ' (emprendedor en arranque)' : '') + ': ' + score + '/' + (Q.length * 2) + ' (' + band.tag + '). Mi punto más flojo: ' + AL[weak] + '.';
     $('#q-cta').addEventListener('click', function () { store('irata_diag', msg); });
-    $('#q-redo').addEventListener('click', qStart);
+    $('#q-redo').addEventListener('click', function () { qStart(); });
     var wl = $('[data-weak]', quiz); if (wl) wl.addEventListener('click', function () { store('irata_diag', msg); });
   }
   if (quiz) document.addEventListener('keydown', function (e) {
@@ -194,7 +233,7 @@
     var b = $$('.q-opt', quiz)[+e.key - 1]; var r = quiz.getBoundingClientRect();
     if (b && r.top < innerHeight && r.bottom > 0 && !/INPUT|TEXTAREA|SELECT/.test((document.activeElement || {}).tagName || '')) b.click();
   });
-  if (quiz) qStart();
+  if (quiz) qStart(qs.get('perfil') === 'arranque' ? 'arranque' : undefined);
 
   /* ---------- Formularios ---------- */
   function say(el, type, html) { el.className = 'msg show ' + type; el.innerHTML = html; }

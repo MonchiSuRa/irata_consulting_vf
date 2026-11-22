@@ -15,7 +15,8 @@ Funciona en cualquier hosting (cPanel, Hostinger, GoDaddy, Netlify, Vercel, GitH
 - `formEndpoint`: URL de un servicio de formularios (Formspree, Getform, Formsubmit…). Vacío = el formulario abre el correo del visitante con el mensaje ya redactado. **Recomendado configurarlo** para recibir los mensajes directamente.
 
 ## Otros ajustes
-- **Foto del fundador:** guarda `ramon.jpg` (cuadrada, mínimo 1000×1000 px) en `assets/img/`. Si no existe, se muestra el monograma "RB".
+- **Fotos de los cofundadores:** Ramón usa su avatar (`assets/img/ramon-avatar-*.webp`, con respaldo al monograma "RB"). Para Joel, guarda `joel.jpg` (cuadrada, mínimo 1000×1000 px) en `assets/img/`; mientras no exista se muestra el monograma "JG".
+- **Autodiagnóstico:** tiene dos recorridos ("arranque" y "en marcha"), definidos en `assets/js/main.js` (`QS` y `BANDS`). `autodiagnostico.html?perfil=arranque` salta directo al recorrido de arranque. En Servicios, el síntoma 07 ("Tengo una idea, pero no sé por dónde empezar") es el panel del paquete "IRATA Arranque" (nombre provisional, editable en `servicios.html`).
 - **Dominio:** reemplaza `https://irata.consulting` en el `<head>` de cada página (canonical, Open Graph; JSON-LD solo en `index.html`), `robots.txt` y `sitemap.xml` si usas otro.
 - **Privacidad:** `privacidad.html` es un borrador base; revísalo con un asesor legal.
 - **Analítica** (GA4, Plausible, etc.): no está incluida. Si la agregas, actualiza la política de privacidad.

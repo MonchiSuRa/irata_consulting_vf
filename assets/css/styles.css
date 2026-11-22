@@ -200,8 +200,8 @@ body.menu-open .nav-in{background:var(--paper);-webkit-backdrop-filter:none;back
 .seg{grid-column:span 2;padding:clamp(22px,2.2vw,30px);border:var(--bd);border-radius:var(--r);box-shadow:var(--sh);display:flex;flex-direction:column;gap:.6rem;transition:transform .25s}
 .seg:hover{transform:translateY(-6px) rotate(-.8deg)}
 .seg:nth-child(even):hover{transform:translateY(-6px) rotate(.8deg)}
-.seg:nth-child(1){background:var(--lime)}.seg:nth-child(2){background:var(--peach)}.seg:nth-child(3){background:var(--sky)}
-.seg:nth-child(4){grid-column:2 / span 2;background:var(--lilac)}.seg:nth-child(5){grid-column:4 / span 2;background:var(--paper)}
+.seg:nth-child(1){background:#C9F1F8}.seg:nth-child(2){background:var(--lime)}.seg:nth-child(3){background:var(--peach)}
+.seg:nth-child(4){background:var(--sky)}.seg:nth-child(5){background:var(--lilac)}.seg:nth-child(6){background:var(--paper)}
 .seg h3{font:800 clamp(1.35rem,2vw,1.7rem)/1.05 var(--f-d);letter-spacing:-.03em}
 .seg p{font-size:.98em;color:var(--ink-2)}
 .seg small{margin-top:auto;padding-top:.6rem;font:700 .85rem var(--f-d);display:flex;gap:.5em;align-items:center}
@@ -457,7 +457,7 @@ a.channel:hover{background:#fff;color:var(--ink);transform:translateX(6px)}
   .tabs,.data-grid{grid-template-columns:1fr}
   .tablist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .tab{padding:14px 16px}
-  .seg{grid-column:span 3}.seg:nth-child(4){grid-column:span 3}.seg:nth-child(5){grid-column:1/-1}
+  .seg{grid-column:span 3}
   .steps{grid-template-columns:repeat(2,1fr)}
   .ladder-wrap,.quiz-grid,.about,.contact-grid,.fit{grid-template-columns:1fr}
   .founder{position:relative;top:0;max-width:440px}
@@ -470,7 +470,7 @@ a.channel:hover{background:#fff;color:var(--ink);transform:translateX(6px)}
   .prop-grid{grid-template-columns:1fr}
   .kpis{grid-template-columns:1fr 1fr 1fr;gap:8px;padding:12px}.kpi{padding:10px}.kpi small{font-size:.62rem}.dash-tabs button{font-size:.85rem}
   .quote-block{grid-template-columns:1fr}.quote-block .q{font-size:5rem;height:.5em}
-  .seg,.seg:nth-child(4),.seg:nth-child(5){grid-column:1/-1}
+  .seg{grid-column:1/-1}
   .steps{grid-template-columns:1fr}
   .principles{grid-template-columns:1fr}
   .fgrid{grid-template-columns:1fr}
@@ -618,3 +618,6 @@ a.channel:hover{background:#fff;color:var(--ink);transform:translateX(6px)}
   .dash-bar .demo{font-size:.62rem;padding:.5em .7em}
 }
 @media (max-width:360px){ .code pre{font-size:.62rem;padding:12px} }
+
+/* segundo perfil (cofundador): mismo bloque, con aire entre ambos */
+.about+.about{margin-top:clamp(64px,8vw,120px)}
